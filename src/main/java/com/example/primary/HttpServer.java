@@ -10,13 +10,18 @@ public class HttpServer {
     public static void main(String[] args) throws InterruptedException {
         EventLoopGroup parentGroup = new NioEventLoopGroup();
         NioEventLoopGroup childGroup = new NioEventLoopGroup();
-
-        ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(parentGroup, childGroup)
-                .channel(NioServerSocketChannel.class)
-                .childHandler(new HttpChannelInitializer());
         
-        ChannelFuture future = bootstrap.bind(8888).sync();
-        future.channel().closeFuture().sync();
+        try {
+            ServerBootstrap bootstrap = new ServerBootstrap();
+            bootstrap.group(parentGroup, childGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(new HttpChannelInitializer());
+
+            ChannelFuture future = bootstrap.bind(8888).sync();
+            future.channel().closeFuture().sync();
+        } finally {
+            parentGroup.shutdownGracefully();
+            childGroup.shutdownGracefully();
+        }
     }
 }
