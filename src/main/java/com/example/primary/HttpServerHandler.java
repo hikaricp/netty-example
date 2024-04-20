@@ -27,8 +27,8 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
             logger.info("请求方式 => {}", request.method().name());
             logger.info("请求 URI => {}", request.uri());
 
-            if ("/favico.icon".equals(request.uri())) {
-                logger.info("不处理/favico.icon请求");
+            if ("/favicon.ico".equals(request.uri())) {
+                logger.info("不处理/favicon.ico请求");
                 return;
             }
 
